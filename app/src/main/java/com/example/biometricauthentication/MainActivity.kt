@@ -45,13 +45,20 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         biometricSupport()
-        /*val biometricPrompt : BiometricPrompt = BiometricPrompt.Builder(this)
-            .setTitle("Title")
-            .setSubtitle("Authenticaion is required")
-            .setDescription("Fingerprint Authentication")
-            .setNegativeButton("Cancel", this.mainExecutor, DialogInterface.OnClickListener { dialog, which ->
-            }).build()
-        biometricPrompt.authenticate(getCancellationSignal(), mainExecutor, authenticationCallback)*/
+        biometricAuthentication()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.P)
+    private fun biometricAuthentication(){
+        binding.fingerprint.setOnClickListener {
+            val biometricPrompt:BiometricPrompt = BiometricPrompt.Builder(this)
+                .setTitle("Biometric Authentication")
+                .setSubtitle("Fingerprint Authentication")
+                .setDescription("Fingerprint Authentication")
+                .setNegativeButton("Cancel", this.mainExecutor,
+                    DialogInterface.OnClickListener { dialog, which ->  }).build()
+            biometricPrompt.authenticate(getCancellationSignal(), mainExecutor, authenticationCallback)
+        }
     }
 
     private fun notifyUser(message:String){
